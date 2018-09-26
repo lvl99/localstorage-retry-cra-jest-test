@@ -7,7 +7,7 @@ function sendAsync(item, callback) {
     console.log("Success", item);
     resolve(item);
   } else {
-    item.countRejected = (item.countRejected || 1) + 1;
+    item.countRejected = (item.countRejected || 0) + 1;
     item.timeLastRejected = Date.now();
     console.log("Failed", item);
   }
