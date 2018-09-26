@@ -1,22 +1,17 @@
 const Queue = require("@segment/localstorage-retry");
 
 function sendAsync(item, callback) {
-  return new Promise((resolve, reject) => {
-    console.log("Attempting to send async...", item);
+  console.log("Pretending to send async...", item);
 
-    // @note have identified that the test fails when the promise is rejected
-    // if (Math.random() >= 0.5) {
-    //   console.log("Success", item);
-    //   resolve(item);
-    // } else {
-
+  if (Math.random() >= 0.5) {
+    console.log("Success", item);
+    resolve(item);
+  } else {
     item.countRejected = (item.countRejected || 1) + 1;
     item.timeLastRejected = Date.now();
     console.log("Failed", item);
-    reject(new Error("Failed"));
-
-    // }
-  });
+  }
+  callback(new Error("Failed for testing purposes"), item);
 }
 
 const queue = new Queue("my_queue_name", (item, done) => {
